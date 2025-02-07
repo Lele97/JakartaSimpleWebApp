@@ -40,11 +40,4 @@
             <classes dir="${build.dir}"/>
         </war>
     </target>
-
-<!--    &lt;!&ndash; Deploy to Tomcat (Assumes Tomcat is running and configured) &ndash;&gt;-->
-<!--    <target name="deploy" depends="war">-->
-<!--        <copy file="${dist.dir}/JakartaEEAntProject.war"-->
-<!--              todir="${env.CATALINA_HOME}/webapps/"/>-->
-<!--    </target>-->
-
 </project>
