@@ -1,0 +1,50 @@
+<project name="JakartaSimpleWebApp" default="war" basedir=".">
+
+    <!-- Define Properties -->
+    <property name="src.dir" value="src"/>
+    <property name="resources.dir" value="resources"/>
+    <property name="web.dir" value="web"/>
+    <property name="build.dir" value="build"/>
+    <property name="lib.dir" value="lib"/>
+    <property name="dist.dir" value="dist"/>
+
+    <!-- Clean the Build Directory -->
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+    </target>
+
+    <!-- Compile Java Source Files -->
+    <target name="compile" depends="clean">
+        <mkdir dir="${build.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false">
+            <classpath>
+                <fileset dir="${lib.dir}" includes="**/*.jar"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <!-- Copy Resources -->
+    <target name="copy-resources" depends="compile">
+        <copy todir="${build.dir}">
+            <fileset dir="${resources.dir}" includes="**/*"/>
+        </copy>
+    </target>
+
+    <!-- Create WAR File -->
+    <target name="war" depends="copy-resources">
+        <mkdir dir="${dist.dir}"/>
+        <war destfile="${dist.dir}/JakartaSimpleWebApp.war" webxml="${web.dir}/WEB-INF/web.xml">
+            <fileset dir="${web.dir}" excludes="WEB-INF/lib/**"/>
+            <lib dir="${lib.dir}"/>
+            <classes dir="${build.dir}"/>
+        </war>
+    </target>
+
+<!--    &lt;!&ndash; Deploy to Tomcat (Assumes Tomcat is running and configured) &ndash;&gt;-->
+<!--    <target name="deploy" depends="war">-->
+<!--        <copy file="${dist.dir}/JakartaEEAntProject.war"-->
+<!--              todir="${env.CATALINA_HOME}/webapps/"/>-->
+<!--    </target>-->
+
+</project>
