@@ -5,34 +5,26 @@
 version: "1.0"
 
 #Specify inspection profile for code analysis
-
 profile:
   name: qodana.recommended
+
+# Uncomment and specify inspections to enable
 #include:
 #  - name: CheckDependencyLicenses
 #    path:
-#exclude:
-#  - name: All
-#    paths:
-#      - web
 
-
-#Enable inspections
-#include:
-#  - name: <SomeEnabledInspectionId>
-
-#Disable inspections
+# Uncomment and specify inspections to disable
 #exclude:
 #  - name: <SomeDisabledInspectionId>
 #    paths:
-#      - <path/where/not/run/inspecti   on>
+#      - <path/where/not/run/inspection>
 
 projectJDK: "17" #(Applied in CI/CD pipeline)
 
-#Execute shell command before Qodana execution (Applied in CI/CD pipeline)
+# Uncomment and execute shell command before Qodana execution (Applied in CI/CD pipeline)
 #bootstrap: sh ./prepare-qodana.sh
 
-#Install IDE plugins before Qodana execution (Applied in CI/CD pipeline)
+# Uncomment and install IDE plugins before Qodana execution (Applied in CI/CD pipeline)
 #plugins:
 #  - id: <plugin.id> #(plugin id can be found at https://plugins.jetbrains.com)
 
