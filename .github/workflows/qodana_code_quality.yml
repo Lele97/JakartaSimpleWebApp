@@ -39,6 +39,7 @@ jobs:
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_2003709816 }}
           QODANA_ENDPOINT: 'https://qodana.cloud'
+
       - name: 'Upload Qodana Report'
         uses: actions/upload-artifact@v4
         with:
@@ -66,10 +67,4 @@ jobs:
             };
             github.rest.checks.create({
               owner: context.repo.owner,
-              repo: context.repo.repo,
-              name: 'Qodana Scan',
-              head_sha: github.context.sha,
-              status: 'completed',
-              conclusion: conclusion,
-              output: output
-            });
+              repo: context.repo
