@@ -20,14 +20,13 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}  # to check out the actual pull request commit, not the merge commit
           fetch-depth: 0  # a full history is required for pull request analysis
 
-      # Step to generate coverage report
-      - name: 'Generate Coverage Report'
-        run: |
-          # Command to generate your coverage report
-          # Example for Java projects using JaCoCo
-          ./gradlew clean test jacocoTestReport
-          # Move the coverage report to a specific directory if needed
-          mv build/reports/jacoco/test/html coverage-report
+#      # Step to generate coverage report using Ant
+#      - name: 'Generate Coverage Report'
+#        run: |
+#          # Command to generate your coverage report using Ant
+#          ant clean test jacoco.report
+#          # Move the coverage report to a specific directory if needed
+#          mv build/reports/jacoco/test/html coverage-report
 
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2024.3
@@ -45,12 +44,12 @@ jobs:
         with:
           name: qodana-report
           path: qodana-report # Adjust the path if necessary
-
-      - name: 'Upload Coverage Report'
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report
-          path: coverage-report # Adjust the path if necessary
+#
+#      - name: 'Upload Coverage Report'
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: coverage-report
+#          path: coverage-report # Adjust the path if necessary
 
       - name: 'Post Qodana Results'
         uses: actions/github-script@v5
@@ -67,4 +66,10 @@ jobs:
             };
             github.rest.checks.create({
               owner: context.repo.owner,
-              repo: context.repo
+              repo: context.repo.repo,
+              name: 'Qodana Scan',
+              head_sha: github.context.sha,
+              status: 'completed',
+              conclusion: conclusion,
+              output: output
+            });
