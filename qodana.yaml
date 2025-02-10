@@ -7,7 +7,9 @@ version: "1.0"
 #Specify inspection profile for code analysis
 
 profile:
-  name: qodana.starter
+  name: qodana.recommended
+include:
+  - name: CheckDependencyLicenses
 
 #Enable inspections
 #include:
@@ -30,4 +32,3 @@ projectJDK: "17" #(Applied in CI/CD pipeline)
 
 #Specify Qodana linter for analysis (Applied in CI/CD pipeline)
 linter: jetbrains/qodana-jvm:2024.3
-
