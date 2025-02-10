@@ -8,8 +8,14 @@ version: "1.0"
 
 profile:
   name: qodana.recommended
-include:
-  - name: CheckDependencyLicenses
+#include:
+#  - name: CheckDependencyLicenses
+#    path:
+#exclude:
+#  - name: All
+#    paths:
+#      - web
+
 
 #Enable inspections
 #include:

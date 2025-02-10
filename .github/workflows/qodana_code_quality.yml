@@ -23,6 +23,36 @@ jobs:
         uses: JetBrains/qodana-action@v2024.3
         with:
           pr-mode: false
+          analysis-profile: 'default' # Specify the Qodana analysis profile
+          cache-key: 'my-cache-key' # Customize the cache key
+          additional-args: '--run-all-checks' # Additional arguments to run all checks
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_2003709816 }}
           QODANA_ENDPOINT: 'https://qodana.cloud'
+      - name: 'Upload Qodana Report'
+        uses: actions/upload-artifact@v3
+        with:
+          name: qodana-report
+          path: qodana-report # Adjust the path if necessary
+      - name: 'Post Qodana Results'
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const fs = require('fs');
+            const reportPath = 'qodana-report/report.json'; # Path to the report file
+            const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+            const conclusion = report.conclusion;
+            const output = {
+              title: 'Qodana Scan Results',
+              summary: conclusion,
+              text: 'Qodana analysis completed. Check the report for detailed results.'
+            };
+            github.rest.checks.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'Qodana Scan',
+              head_sha: github.context.sha,
+              status: 'completed',
+              conclusion: conclusion,
+              output: output
+            });
