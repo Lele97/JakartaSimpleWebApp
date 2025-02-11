@@ -3,16 +3,7 @@ version: "1.0"
 # Specify inspection profile for code analysis
 profile:
   name: qodana.recommended
-
-# Ensure JSP files are included in analysis
-include:
-  - name: "HTML"
-    paths:
-      - "src/main/webapp"  # Adjust to your JSP file location
-  - name: "JSP"
-    paths:
-      - "src/main/webapp"
-
+  
 # Enable the correct Qodana linter
 linter: jetbrains/qodana-jvm:2024.3
 
