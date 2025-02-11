@@ -1,21 +1,61 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Registrazione</title>
-    </head>
-    <body>
-            <form  method="get" action="<%=request.getContextPath() %>/RecUser">
-                <fieldset>                    
-                    <label for="uname">Nome Utente</label>
-                    <input type="text" required name="uname" placeholder="nome"></br></br>
-                    <label for="uemail">E-mail</label>
-                    <input type="text" required name="uemail" placeholder="e-mail"></br></br>
-                    <label for="upassword">Password</label>
-                    <input type="password" required name="upassword" placeholder="password"></br></br>
-                    <button type="submit">Registrati</button>
-                </fieldset>
-            </form>
-    </body>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrazione | Azienda Informatica</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #141e30, #243b55);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 350px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        .button {
+            display: inline-block;
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            color: white;
+            background: #28a745;
+            border: none;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .button:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Registrati</h2>
+        <form method="get" action="<%=request.getContextPath() %>/RecUser">
+            <input type="text" name="uname" placeholder="Nome Utente" required>
+            <input type="text" name="uemail" placeholder="E-mail" required>
+            <input type="password" name="upassword" placeholder="Password" required>
+            <button class="button" type="submit">Registrati</button>
+        </form>
+    </div>
+</body>
 </html>
