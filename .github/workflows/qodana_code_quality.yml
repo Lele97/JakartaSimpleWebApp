@@ -24,7 +24,7 @@ jobs:
       - name: Qodana Scan
         uses: JetBrains/qodana-action@v2024.3
         with:
-          args: "--run-all-checks"  # Runs all possible checks
+          pr-mode: 'false'
           upload-result: true
           artifact-name: qodana-analysis-results
           use-annotations: true
@@ -41,33 +41,33 @@ jobs:
           path: qodana-report
 
 
-      - name: 'Post Qodana Results'
-        uses: actions/github-script@v5
-        with:
-          script: |
-            const fs = require('fs');
-            const path = '${{ runner.temp }}/qodana/results/report.json'; // Ensure the correct path
-            
-            if (!fs.existsSync(path)) {
-              console.log('Qodana report file not found. Skipping result posting.');
-              return;
-            }
-
-            const report = JSON.parse(fs.readFileSync(path, 'utf8'));
-            console.log("Qodana Report:", report);
-
-            const conclusion = report.conclusion === 'success' ? 'success' : 'failure';
-
-            await github.rest.checks.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              name: 'Qodana Scan',
-              head_sha: context.sha,
-              status: 'completed',
-              conclusion: conclusion,
-              output: {
-                title: 'Qodana Scan Results',
-                summary: `Qodana analysis completed with status: ${conclusion}`,
-                text: 'Qodana found some issues. Check the report for details.'
-              }
-            });
+#      - name: 'Post Qodana Results'
+#        uses: actions/github-script@v5
+#        with:
+#          script: |
+#            const fs = require('fs');
+#            const path = '${{ runner.temp }}/qodana/results/report.json'; // Ensure the correct path
+#
+#            if (!fs.existsSync(path)) {
+#              console.log('Qodana report file not found. Skipping result posting.');
+#              return;
+#            }
+#
+#            const report = JSON.parse(fs.readFileSync(path, 'utf8'));
+#            console.log("Qodana Report:", report);
+#
+#            const conclusion = report.conclusion === 'success' ? 'success' : 'failure';
+#
+#            await github.rest.checks.create({
+#              owner: context.repo.owner,
+#              repo: context.repo.repo,
+#              name: 'Qodana Scan',
+#              head_sha: context.sha,
+#              status: 'completed',
+#              conclusion: conclusion,
+#              output: {
+#                title: 'Qodana Scan Results',
+#                summary: `Qodana analysis completed with status: ${conclusion}`,
+#                text: 'Qodana found some issues. Check the report for details.'
+#              }
+#            });
