@@ -4,7 +4,7 @@ on:
   pull_request:
   push:
     branches:
-      - main
+      - master
       - 'releases/*'
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
       - name: Qodana Scan
         uses: JetBrains/qodana-action@v2024.3
         with:
-          pr-mode: false  # Analyze all files, not just changed ones
+          pr-mode: true  # Analyze all files, not just changed ones
           upload-result: true  # Upload results for review
           artifact-name: qodana-analysis-results
           use-annotations: true  # Show detailed GitHub annotations
