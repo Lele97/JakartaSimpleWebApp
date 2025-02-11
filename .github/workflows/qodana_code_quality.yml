@@ -3,9 +3,9 @@ on:
   workflow_dispatch:
   pull_request:
   push:
-    branches: # Specify your branches here
-      - main # The 'main' branch
-      - 'releases/*' # The release branches
+    branches:
+      - main
+      - 'releases/*'
 
 jobs:
   qodana:
@@ -17,24 +17,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.pull_request.head.sha }}  # to check out the actual pull request commit, not the merge commit
-          fetch-depth: 0  # a full history is required for pull request analysis
-
-#      # Step to generate coverage report using Ant
-#      - name: 'Generate Coverage Report'
-#        run: |
-#          # Command to generate your coverage report using Ant
-#          ant clean test jacoco.report
-#          # Move the coverage report to a specific directory if needed
-#          mv build/reports/jacoco/test/html coverage-report
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
 
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2024.3
         with:
           pr-mode: false
-          analysis-profile: 'default' # Specify the Qodana analysis profile
-          cache-key: 'my-cache-key' # Customize the cache key
-          additional-args: '--run-all-checks' # Additional arguments to run all checks
+          analysis-profile: 'default'
+          cache-key: 'my-cache-key'
+          additional-args: '--run-all-checks'
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_2003709816 }}
           QODANA_ENDPOINT: 'https://qodana.cloud'
@@ -43,33 +35,35 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: qodana-report
-          path: qodana-report # Adjust the path if necessary
-#
-#      - name: 'Upload Coverage Report'
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: coverage-report
-#          path: coverage-report # Adjust the path if necessary
+          path: ${{ runner.temp }}/qodana/results  # Adjusted path to match where Qodana stores results
 
       - name: 'Post Qodana Results'
         uses: actions/github-script@v5
         with:
           script: |
             const fs = require('fs');
-            const reportPath = 'qodana-report/report.json'; # Path to the report file
-            const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
-            const conclusion = report.conclusion;
-            const output = {
-              title: 'Qodana Scan Results',
-              summary: conclusion,
-              text: 'Qodana analysis completed. Check the report for detailed results.'
-            };
-            github.rest.checks.create({
+            const path = '${{ runner.temp }}/qodana/results/report.json'; // Ensure the correct path
+            
+            if (!fs.existsSync(path)) {
+              console.log('Qodana report file not found. Skipping result posting.');
+              return;
+            }
+
+            const report = JSON.parse(fs.readFileSync(path, 'utf8'));
+            console.log("Qodana Report:", report);
+
+            const conclusion = report.conclusion === 'success' ? 'success' : 'failure';
+
+            await github.rest.checks.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
               name: 'Qodana Scan',
-              head_sha: github.context.sha,
+              head_sha: context.sha,
               status: 'completed',
               conclusion: conclusion,
-              output: output
+              output: {
+                title: 'Qodana Scan Results',
+                summary: `Qodana analysis completed with status: ${conclusion}`,
+                text: 'Qodana found some issues. Check the report for details.'
+              }
             });
