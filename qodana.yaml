@@ -1,12 +1,8 @@
 version: "1.0"
 
-# Specify inspection profile for code analysis
 profile:
-  name: qodana.full
-  
-# Enable the correct Qodana linter
-linter: jetbrains/qodana-jvm-community:2024.3
+  name: qodana.recommended  # Use the default recommended profile
 
-# Ensure correct Java version for JSP compilation
 projectJDK: "17"
 
+linter: jetbrains/qodana-jvm:2024.3
