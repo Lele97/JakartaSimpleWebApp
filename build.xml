@@ -8,7 +8,7 @@
     <property name="lib.dir" value="lib"/>
     <property name="dist.dir" value="dist"/>
 
-    <!-- Clean the Build Directory -->
+    <!-- Clean the build and dist directory -->
     <target name="clean">
         <delete dir="${build.dir}"/>
         <delete dir="${dist.dir}"/>
