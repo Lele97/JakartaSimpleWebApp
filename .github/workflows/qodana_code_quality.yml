@@ -25,7 +25,7 @@ jobs:
         uses: JetBrains/qodana-action@v2024.3
         with:
           pr-mode: false  # Analyze all files, not just changed ones
-          args: "--run-all-checks --fail-threshold=0"  # Run full analysis
+          args: "--run-all-checks --fail-threshold=0" # Run full analysis
           upload-result: true  # Upload results for review
           artifact-name: qodana-analysis-results
           use-annotations: true  # Show detailed GitHub annotations
