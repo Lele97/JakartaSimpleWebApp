@@ -23,13 +23,17 @@ jobs:
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2024.3
         with:
-          pr-mode: false
-          analysis-profile: 'default'
-          cache-key: 'my-cache-key'
-          additional-args: '--run-all-checks'
+          pr-mode: false  # Ensures it scans all files, not just changed ones
+          analysis-profile: full  # Runs the full analysis for maximum issue detection
+          additional-args: "--run-all-checks --fail-threshold=0"  # Enables all checks & reports all problems
+          upload-result: true  # Uploads the report for review
+          artifact-name: qodana-analysis-results  # Stores results under this name
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_2003709816 }}
           QODANA_ENDPOINT: 'https://qodana.cloud'
+
+
+
 
       - name: 'Upload Qodana Report'
         uses: actions/upload-artifact@v4
