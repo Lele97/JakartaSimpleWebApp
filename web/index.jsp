@@ -6,86 +6,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Benvenuto | Azienda Informatica</title>
     <style>
-        /* Reset CSS */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: 'Arial', sans-serif;
             background: linear-gradient(to right, #141e30, #243b55);
             color: #ffffff;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             height: 100vh;
             margin: 0;
+            text-align: center;
         }
-
         .container {
             background: rgba(255, 255, 255, 0.1);
-            padding: 40px;
+            padding: 30px;
             border-radius: 15px;
-            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.4);
-            text-align: center;
-            width: 100%;
-            max-width: 400px;
-            backdrop-filter: blur(10px);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            width: 400px;
         }
-
         h2 {
-            margin-bottom: 25px;
-            font-size: 28px;
-            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 24px;
         }
-
+        p {
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
         .button {
             display: inline-block;
-            margin: 15px 0;
-            padding: 15px 25px;
+            margin: 10px 0;
+            padding: 12px 20px;
             font-size: 16px;
             color: white;
             background: #007bff;
             text-decoration: none;
-            border-radius: 8px;
-            transition: background 0.3s ease, transform 0.2s ease;
-            width: 100%;
-            max-width: 250px;
+            border-radius: 5px;
+            transition: 0.3s;
         }
-
         .button:hover {
             background: #0056b3;
-            transform: translateY(-2px);
         }
-
-        .button:active {
-            transform: translateY(0);
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
         }
-
-        /* Responsive Design */
-        @media (max-width: 480px) {
-            .container {
-                padding: 20px;
-            }
-
-            h2 {
-                font-size: 24px;
-            }
-
-            .button {
-                padding: 12px 20px;
-                font-size: 14px;
-            }
+        .footer a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Benvenuto nella nostra Azienda Informatica</h2>
+        <p>Forniamo soluzioni digitali avanzate per il tuo business. Scopri i nostri servizi e unisciti a noi oggi stesso.</p>
         <a class="button" href="<%=request.getContextPath() %>/form_login.jsp">Accedi</a>
+        <br>
         <a class="button" href="<%=request.getContextPath() %>/form_registrazione.jsp">Registrati</a>
+    </div>
+
+    <div class="footer">
+        <a href="#">Chi Siamo</a>
+        <a href="#">Servizi</a>
+        <a href="#">Blog</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Contatti</a>
     </div>
 </body>
 </html>
