@@ -1,32 +1,21 @@
-#-------------------------------------------------------------------------------#
-#               Qodana analysis is configured by qodana.yaml file               #
-#             https://www.jetbrains.com/help/qodana/qodana-yaml.html            #
-#-------------------------------------------------------------------------------#
 version: "1.0"
 
-#Specify inspection profile for code analysis
+# Specify inspection profile for code analysis
 profile:
   name: qodana.recommended
 
-# Uncomment and specify inspections to enable
-#include:
-#  - name: CheckDependencyLicenses
-#    path:
+# Ensure JSP files are included in analysis
+include:
+  - name: "HTML"
+    paths:
+      - "src/main/webapp"  # Adjust to your JSP file location
+  - name: "JSP"
+    paths:
+      - "src/main/webapp"
 
-# Uncomment and specify inspections to disable
-#exclude:
-#  - name: <SomeDisabledInspectionId>
-#    paths:
-#      - <path/where/not/run/inspection>
-
-projectJDK: "17" #(Applied in CI/CD pipeline)
-
-# Uncomment and execute shell command before Qodana execution (Applied in CI/CD pipeline)
-#bootstrap: sh ./prepare-qodana.sh
-
-# Uncomment and install IDE plugins before Qodana execution (Applied in CI/CD pipeline)
-#plugins:
-#  - id: <plugin.id> #(plugin id can be found at https://plugins.jetbrains.com)
-
-#Specify Qodana linter for analysis (Applied in CI/CD pipeline)
+# Enable the correct Qodana linter
 linter: jetbrains/qodana-jvm:2024.3
+
+# Ensure correct Java version for JSP compilation
+projectJDK: "17"
+

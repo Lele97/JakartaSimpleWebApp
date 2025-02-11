@@ -1,4 +1,4 @@
-name: Qodana
+name: Qodana Scan
 on:
   workflow_dispatch:
   pull_request:
@@ -15,31 +15,32 @@ jobs:
       pull-requests: write
       checks: write
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
 
-      - name: 'Qodana Scan'
+      - name: Qodana Scan
         uses: JetBrains/qodana-action@v2024.3
         with:
-          pr-mode: false  # Ensures it scans all files, not just changed ones
-          analysis-profile: full  # Runs the full analysis for maximum issue detection
-          additional-args: "--run-all-checks --fail-threshold=0"  # Enables all checks & reports all problems
-          upload-result: true  # Uploads the report for review
-          artifact-name: qodana-analysis-results  # Stores results under this name
+          pr-mode: false  # Analyze all files, not just changed ones
+          args: "--run-all-checks --fail-threshold=0"  # Run full analysis
+          upload-result: true  # Upload results for review
+          artifact-name: qodana-analysis-results
+          use-annotations: true  # Show detailed GitHub annotations
+          push-fixes: pull-request  # Automatically suggest fixes
+          commit-message: "🔧 Auto-fix by Qodana"
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_2003709816 }}
           QODANA_ENDPOINT: 'https://qodana.cloud'
 
-
-
-
-      - name: 'Upload Qodana Report'
+      - name: Upload Qodana Report
         uses: actions/upload-artifact@v4
         with:
           name: qodana-report
-          path: ${{ runner.temp }}/qodana/results  # Adjusted path to match where Qodana stores results
+          path: qodana-report
+
 
       - name: 'Post Qodana Results'
         uses: actions/github-script@v5
