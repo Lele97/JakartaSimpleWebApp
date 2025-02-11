@@ -24,11 +24,11 @@ jobs:
       - name: Qodana Scan
         uses: JetBrains/qodana-action@v2024.3
         with:
-          pr-mode: true  # Analyze all files, not just changed ones
-          upload-result: true  # Upload results for review
+          args: "--run-all-checks"  # Run all checks, not just recommended ones
+          upload-result: true
           artifact-name: qodana-analysis-results
-          use-annotations: true  # Show detailed GitHub annotations
-          push-fixes: pull-request  # Automatically suggest fixes
+          use-annotations: true
+          push-fixes: pull-request
           commit-message: "🔧 Auto-fix by Qodana"
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_2003709816 }}
