@@ -30,8 +30,6 @@ jobs:
           use-annotations: true
           push-fixes: pull-request
           commit-message: "🔧 Auto-fix by Qodana"
-          args: --fail-threshold 0 --profile-name=qodana.recommended
-
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_2003709816 }}
           QODANA_ENDPOINT: 'https://qodana.cloud'
@@ -40,4 +38,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: qodana-report
-          path: qodana-report
+          path: qodana/results  # Correct path for Qodana reports
+
