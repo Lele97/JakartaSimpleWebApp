@@ -5,6 +5,4 @@ profile:
 
 projectJDK: "17"
 
-failThreshold: 0
-
 linter: jetbrains/qodana-jvm:2024.3
