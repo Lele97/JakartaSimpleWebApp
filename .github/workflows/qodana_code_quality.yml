@@ -30,6 +30,8 @@ jobs:
           use-annotations: true
           push-fixes: pull-request
           commit-message: "🔧 Auto-fix by Qodana"
+          args: --fail-threshold 0 --profile-name=qodana.recommended
+
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_2003709816 }}
           QODANA_ENDPOINT: 'https://qodana.cloud'
@@ -39,35 +41,3 @@ jobs:
         with:
           name: qodana-report
           path: qodana-report
-
-
-#      - name: 'Post Qodana Results'
-#        uses: actions/github-script@v5
-#        with:
-#          script: |
-#            const fs = require('fs');
-#            const path = '${{ runner.temp }}/qodana/results/report.json'; // Ensure the correct path
-#
-#            if (!fs.existsSync(path)) {
-#              console.log('Qodana report file not found. Skipping result posting.');
-#              return;
-#            }
-#
-#            const report = JSON.parse(fs.readFileSync(path, 'utf8'));
-#            console.log("Qodana Report:", report);
-#
-#            const conclusion = report.conclusion === 'success' ? 'success' : 'failure';
-#
-#            await github.rest.checks.create({
-#              owner: context.repo.owner,
-#              repo: context.repo.repo,
-#              name: 'Qodana Scan',
-#              head_sha: context.sha,
-#              status: 'completed',
-#              conclusion: conclusion,
-#              output: {
-#                title: 'Qodana Scan Results',
-#                summary: `Qodana analysis completed with status: ${conclusion}`,
-#                text: 'Qodana found some issues. Check the report for details.'
-#              }
-#            });
